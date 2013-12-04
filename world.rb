@@ -1,5 +1,5 @@
 require './cell'
-#  R ule1   Any live cell with fewer than two live neighbors dies
+#  Rule1   Any live cell with fewer than two live neighbors dies
 #  Rule2   Any live cell with two or three live neighbors lives on to the next generation.
 #  Rule3   Any live cell with more than three live neighbors dies
 #  Rule4   Any dead cell with exactly three live neighbors becomes a live cell
@@ -24,7 +24,7 @@ class World
 		neighbors =[]
 		for i in (-1..1)
 			for j in (-1..1)
-				next if (i==0 && j==0) #since we are looking for neighbors around (x,y)
+				next if (i==0 && j==0) #since we are looking for neighbors AROUND (x,y), not AT (x,y)
 				neighbors << [x+i, y+j] if self.alive?((x+i), (y+j)) 
 				#neighbors doesn't give the actual cells, only the locations of the cells
 			end
@@ -43,8 +43,10 @@ class World
 
 
 
-	#world can now loop through all the cells in the world and tell them if they is alive or dead after the tick!
-	# loop over all cells in the world, and if the cells are dead in the next round then remove from the world 
+	#world can now loop through all the cells in the world and tell them 
+	#if they are alive or dead after the tick!
+	# loop over all cells in the world, and if the cells are dead in the next round 
+	#then remove from the world 
 	
 	
 
@@ -65,10 +67,16 @@ class World
 		#  Rule1   Any live cell with fewer than two live neighbors dies
 		#  Rule2   Any live cell with two or three live neighbors lives
 		#  Rule3   Any live cell with more than three live neighbors dies
+		puts "the world is currently #{self.world.inspect}"
+
 		self.world.each do |cell|
-			neighbors = self.num_of_neighbors(cell.x, cell.y)
+			neighbors = self.num_of_neighbors(cell.x, cell.y) #computes number of neighbors using TEMP! 
+			puts "# of neighbors for cell #{cell.inspect} is #{neighbors}"
 			if (neighbors < 2 || neighbors > 3)
-				self.world -= cell
+				puts "deleting cell #{cell.inspect}"
+
+				self.world.delete(cell)
+				puts "the world is now #{self.world.inspect}"
 			end
 		end
 	end
@@ -77,12 +85,13 @@ class World
 		#  Rule4   Any dead cell with exactly three live neighbors becomes a live cell
 		#reincarnation_locations returns an array of the [x,y] locations of 
 		#cells that should be brought back to life
+		#!!!!BUT SHOULD NOT BE AT LOCATION OF CELL ALIVE AT t=T!!!!!
 
 		self.set_bounds
 		locations = []
 		for x in ((self.bounds[0])..(self.bounds[1]))
 			for y in ((self.bounds[2])..(self.bounds[3]))
-				if num_of_neighbors(x,y) == 3
+				if num_of_neighbors(x,y) == 3 && !alive?(x,y)#three neighbors && cell currently dead
 					locations << [x,y] 
 				end
 			end

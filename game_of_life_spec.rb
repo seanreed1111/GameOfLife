@@ -43,7 +43,8 @@ end
 describe World, "#num_of_neighbors" do
 		new_world = World.new
 		c10 =new_world.new_cell(1,0)
-		c01 = new_world.new_cell(0,1)
+		c20 = new_world.new_cell(2,0)
+		c11 = new_world.new_cell(1,1)
 		c12 = new_world.new_cell(1,2)
 		c22 = new_world.new_cell(2,2)
 
@@ -52,7 +53,7 @@ describe World, "#num_of_neighbors" do
 	end
 
 	it "should compute the correct number of neighbours for (1,0)" do
-		new_world.num_of_neighbors(1,0).should eq(1)
+		new_world.num_of_neighbors(1,0).should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (1,1)" do
@@ -60,16 +61,20 @@ describe World, "#num_of_neighbors" do
 		new_world.num_of_neighbors(1,1).should eq(4)
 	end
 
+	it "should compute the correct number of neighbours for (1,2)" do
+		new_world.num_of_neighbors(1,2).should eq(2)
+	end
+
 	it "should compute the correct number of neighbours for (2,0)" do
-		new_world.num_of_neighbors(2,0).should eq(1)
+		new_world.num_of_neighbors(2,0).should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (2,1)" do
-		new_world.num_of_neighbors(2,1).should eq(3)
+		new_world.num_of_neighbors(2,1).should eq(5)
 	end
 
 	it "should compute the correct number of neighbours for (2,2)" do
-		new_world.num_of_neighbors(2,2).should eq(1)
+		new_world.num_of_neighbors(2,2).should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (3,3)" do
@@ -153,3 +158,45 @@ end
 
 #still have to test reincarnate!, kill_live_cells_if_needed!, and tick!
 
+	#test of kill_live_cells_if_needed
+	# def kill_live_cells_if_needed!
+	# 	#  Rule1   Any live cell with fewer than two live neighbors dies
+	# 	#  Rule2   Any live cell with two or three live neighbors lives
+	# 	#  Rule3   Any live cell with more than three live neighbors dies
+	# 	self.world.each do |cell|
+	# 		neighbors = self.num_of_neighbors(cell.x, cell.y)
+	# 		if (neighbors < 2 || neighbors > 3)
+	# 			self.world.delete(cell)
+	# 		end
+	# 	end
+	# end
+
+# describe World, "#kill_live_cells_if_needed" do
+
+# 	new_world = World.new
+# 	c10 = new_world.new_cell(1,0)
+# 	c11 = new_world.new_cell(1,1)
+# 	c12 = new_world.new_cell(1,2)
+# 	new_world.set_bounds
+
+# 	# it"should kill c10 and c12" do
+# 	# 	new_world.kill_live_cells_if_needed! #only c11 should be left in the world
+# 	# 	puts new_world.world.inspect
+# 	# 	new_world.world.should eq([c11])
+# 	# end
+
+# 	c20 =new_world.new_cell(2,0)
+# 	c22 = new_world.new_cell(2,2)
+# 	new_world.set_bounds
+# 	#the following test currently fails
+#  	it "should kill c11 only" do
+# 		new_world.kill_live_cells_if_needed!
+# 		puts new_world.world.inspect
+# 		new_world.world.should_not include(c11)
+# 		new_world.world.should include(c10)
+# 		new_world.world.should include(c20)
+# 		new_world.world.should include(c12)
+# 		new_world.world.should include(c22)
+# 	end
+
+# end
