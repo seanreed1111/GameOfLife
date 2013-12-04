@@ -42,19 +42,26 @@ end
 
 describe World, "#num_of_neighbors" do
 		new_world = World.new
-		c10 = new_world.new_cell(1,0)
-		c20 = new_world.new_cell(2,0)
-		c11 = new_world.new_cell(1,1)
+		c10 =new_world.new_cell(1,0)
+		c01 = new_world.new_cell(0,1)
+		c12 = new_world.new_cell(1,2)
+		c22 = new_world.new_cell(2,2)
+
 	it "should compute the correct number of neighbours for (0,0)" do
 		new_world.num_of_neighbors(0,0).should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (1,0)" do
-		new_world.num_of_neighbors(1,0).should eq(2)
+		new_world.num_of_neighbors(1,0).should eq(1)
+	end
+
+	it "should compute the correct number of neighbours for (1,1)" do
+		puts "new_world.world is #{new_world.world}"
+		new_world.num_of_neighbors(1,1).should eq(4)
 	end
 
 	it "should compute the correct number of neighbours for (2,0)" do
-		new_world.num_of_neighbors(2,0).should eq(2)
+		new_world.num_of_neighbors(2,0).should eq(1)
 	end
 
 	it "should compute the correct number of neighbours for (2,1)" do
@@ -66,7 +73,11 @@ describe World, "#num_of_neighbors" do
 	end
 
 	it "should compute the correct number of neighbours for (3,3)" do
-		new_world.num_of_neighbors(3,3).should eq(0)
+		new_world.num_of_neighbors(3,3).should eq(1)
+	end
+
+		it "should compute the correct number of neighbours for (4,4)" do
+		new_world.num_of_neighbors(4,4).should eq(0)
 	end
 
 end
@@ -112,3 +123,33 @@ describe World, "#set_bounds" do
 	end
 
 end
+
+describe World, "#reincarnation_locations" do
+
+	new_world = World.new
+	c10 =new_world.new_cell(1,0)
+	c01 = new_world.new_cell(0,1)
+	new_world.set_bounds
+
+	it "should return an empty array if there are not exactly 3 neighbours" do
+		new_world.reincarnation_locations.should eq([])
+	end
+
+	it "should return only one location if there is one square with exactly 3 neighbours" do
+		c12 = new_world.new_cell(1,2)
+		new_world.set_bounds
+		new_world.reincarnation_locations.should include([1,1])
+	end
+
+	it "should return multiple location if there is more than one square with exactly 3 neighbours" do
+		c12 = new_world.new_cell(1,2)
+		c22 = new_world.new_cell(2,2)
+		c23 = new_world.new_cell(2,3)
+		new_world.set_bounds
+		new_world.reincarnation_locations.should eq([[1,2],[1,3],[2,1]])
+		
+	end
+
+
+end
+

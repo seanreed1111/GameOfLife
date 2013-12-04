@@ -1,8 +1,8 @@
 require './cell'
-#  Rule1   Any live cell with fewer than two live neighbours dies
-#  Rule2   Any live cell with two or three live neighbours lives on to the next generation.
-#  Rule3   Any live cell with more than three live neighbours dies
-#  Rule4   Any dead cell with exactly three live neighbours becomes a live cell
+#  Rule1   Any live cell with fewer than two live neighbors dies
+#  Rule2   Any live cell with two or three live neighbors lives on to the next generation.
+#  Rule3   Any live cell with more than three live neighbors dies
+#  Rule4   Any dead cell with exactly three live neighbors becomes a live cell
 
 class World
 	attr_accessor :world, :bounds
@@ -23,7 +23,7 @@ class World
 		for i in (-1..1)
 			for j in (-1..1)
 				next if (i==0 && j==0)
-				neighbors << [x+i, y+j] if alive?((x+i), (y+j)) 
+				neighbors << [x+i, y+j] if self.alive?((x+i), (y+j)) 
 				#neighbors doesn't give the actual cells, only the locations of the cells
 				#but I think that is ok, because I can just look at the length of neighbors to tell if
 				#the cell should be alive or dead for the next round
@@ -66,10 +66,7 @@ class World
 		#cells that should be brought back to life
 
 		#Note: set_bounds should be called before this method is run
-		# puts "self.bounds[0] = #{self.bounds[0]}"
-		# puts "self.bounds[1] = #{self.bounds[1]}"
-		# puts "self.bounds[2] = #{self.bounds[2]}"
-		# puts "self.bounds[3] = #{self.bounds[3]}"
+
 		locations = []
 		for x in ((self.bounds[0])..(self.bounds[1]))
 			for y in ((self.bounds[2])..(self.bounds[3]))
