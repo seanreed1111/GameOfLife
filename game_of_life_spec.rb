@@ -17,16 +17,16 @@
 # The rules continue to be applied repeatedly to create further generations.
 
 require './cell'
-require './world'
+require './universe'
 
-describe "testing world#new_cell" do
-		new_world = World.new
+describe "testing Universe#new_cell" do
+		new_world = Universe.new
 		c10 =new_world.new_cell(1,0)
 		c20 = new_world.new_cell(2,0)
 
 	it "should create a new cell" do
 		c10.is_a?(Cell).should eq(true)
-		new_world.is_a?(World).should eq(true)
+		new_world.is_a?(Universe).should eq(true)
 	end
 
 	it "should include c10 in the @world instance variable" do
@@ -40,8 +40,8 @@ describe "testing world#new_cell" do
 	end
 end
 
-describe World, "#num_of_neighbors" do
-		new_world = World.new
+describe Universe, "#num_of_neighbors" do
+		new_world = Universe.new
 		c10 =new_world.new_cell(1,0)
 		c20 = new_world.new_cell(2,0)
 		c11 = new_world.new_cell(1,1)
@@ -87,8 +87,8 @@ describe World, "#num_of_neighbors" do
 
 end
 
-describe World, "#alive?" do
-	new_world = World.new
+describe Universe, "#alive?" do
+	new_world = Universe.new
 	c203_2 = new_world.new_cell(-203,2)
 	c2_1000 = new_world.new_cell(2,1000)
 
@@ -111,8 +111,8 @@ describe World, "#alive?" do
 end
 
 
-describe World, "#set_bounds" do
-	new_world = World.new
+describe Universe, "#set_bounds" do
+	new_world = Universe.new
 	c10 =new_world.new_cell(1,0)
 	c05 = new_world.new_cell(0,5)
 
@@ -129,9 +129,9 @@ describe World, "#set_bounds" do
 
 end
 
-describe World, "#reincarnation_locations" do
+describe Universe, "#reincarnation_locations" do
 
-	new_world = World.new
+	new_world = Universe.new
 	c10 =new_world.new_cell(1,0)
 	c01 = new_world.new_cell(0,1)
 	new_world.set_bounds
@@ -171,9 +171,9 @@ end
 	# 	end
 	# end
 
-# describe World, "#kill_live_cells_if_needed" do
+# describe Universe, "#kill_live_cells_if_needed" do
 
-# 	new_world = World.new
+# 	new_world = Universe.new
 # 	c10 = new_world.new_cell(1,0)
 # 	c11 = new_world.new_cell(1,1)
 # 	c12 = new_world.new_cell(1,2)
