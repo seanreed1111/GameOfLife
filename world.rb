@@ -5,10 +5,11 @@ require './cell'
 #  Rule4   Any dead cell with exactly three live neighbours becomes a live cell
 
 class World
-	attr_reader :world
+	attr_reader :world, :bounds
 
 	def initialize
 		@world = []
+		@bounds = []
 	end
 
 	def new_cell(x,y)
@@ -56,7 +57,7 @@ class World
 	# Finally, set @world = TEMP to update the new state of the world
 
 
-	def find_search_boundaries #version 1
+	def set_bounds #version 1
 		x=[]
 		y=[]
 		self.world.each do |cell|
@@ -64,17 +65,20 @@ class World
 			y<< cell.y
 		end
 
-		x.min, x.max, y.min, y.max
+		self.bounds << x.minmax << y.minmax
 	end
 
-	def bring_dead_cells_to_life!
-		#finds search boundaries, 
-		#returns locations of new cells that are now alive.
-		#makes sure these spaces don't already have a live cell in them
-		#then put a live cell in all the places that don't have one
-
-		#returns an array of cells
-		self.find_search_boundaries
+	def reincarnation_locations
+		#reincarnate returns array of the x,y locations of 
+		#cells that should be brought back to life
+		#Note: set_bounds should be called before this function
+		locations = []
+		for x in ((self.bounds[0][0])..(self.bounds[0][1]))
+			for y in (self.bounds[1][0]..self.bounds[1][1])
+				locations << [x,y] if num_of_neighbors(x,y) == 3
+			end
+		end
+		locations
 	end
 
 	def tick!
@@ -97,12 +101,23 @@ class World
 		#need to loop out one more row and column away from the max and min x and y values
 		#insert code here
 		# Rule4   Any dead cell with exactly three live neighbours becomes a live cell
+		 = 
+		self.set_bounds
+		new_cell_locations = self.reincarnation_locations #returns array of x,y locations of cells to be reincarnated
+		
+		#now, add these new cell locations to temp_world 
+		#iff they don't already exist in temp_world
+		use the alive?(x,y) method
 
-		self.bring_dead_cells_to_life! #call it on self because you haven't killed any cells yet.
-		#also can just kill the cells first!
+		if new_cell_locations.length != 0
+			new_cell_locations.each do |x,y|
+				temp_world.new_cell(x,y) if !alive?(x,y)
+			end
+		end	
 
 
-		#finally, copy temp_world into self.world and end the function
+		#finally, since temp_world now has all the cells that should exist
+		# for t=T+1, copy temp_world into self.world
 		self.world = temp_world.world
 	end
 
