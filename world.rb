@@ -46,18 +46,11 @@ class World
 	#world can now loop through all the cells in the world and tell them if they is alive or dead after the tick!
 	# loop over all cells in the world, and if the cells are dead in the next round then remove from the world 
 	
-	#tick! does the following
-	# copies the @world array (t=T) into a TEMP variable
-	# checks to see which alive cells stay alive at T+1
-	# 	kill all alive cells that died in T+1 by removing them from TEMP 
-	#checks which dead cells get brought to life at T+1
-			# for finding dead cells that might become alive, can find the min and max x and y values, and bound
-			# your search over the array there.
-	# 	add a new cell to temp array for each cell brought back to life
-	# Finally, set @world = TEMP to update the new state of the world
+	
 
 
 	def set_bounds #version 1
+		self.bounds = []
 		x=[]
 		y=[]
 		self.world.each do |cell|
@@ -65,7 +58,7 @@ class World
 			y<< cell.y
 		end
 
-		self.bounds << x.min-1<< xmax+1 << y.min-1 << ymax+1
+		self.bounds << x.min-1<< x.max+1 << y.min-1 << y.max+1
 	end
 
 	def reincarnation_locations
@@ -80,6 +73,16 @@ class World
 		end
 		locations
 	end
+
+#tick! does the following
+	# copies the @world array (t=T) into a TEMP variable
+	# checks to see which alive cells stay alive at T+1
+	# 	kill all alive cells that died in T+1 by removing them from TEMP 
+	#checks which dead cells get brought to life at T+1
+			# for finding dead cells that might become alive, can find the min and max x and y values, and bound
+			# your search over the array there.
+	# 	add a new cell to temp array for each cell brought back to life
+	# Finally, set @world = TEMP to update the new state of the world
 
 	def tick!
 

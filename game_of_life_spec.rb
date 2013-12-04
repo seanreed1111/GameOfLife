@@ -71,5 +71,44 @@ describe World, "#num_of_neighbors" do
 
 end
 
+describe World, "#alive?" do
+	new_world = World.new
+	c203_2 = new_world.new_cell(-203,2)
+	c2_1000 = new_world.new_cell(2,1000)
+
+	it "should return true for cell created at(-203,2)" do
+		new_world.alive?(-203,2).should eq(true)
+	end
+
+	it "should return true for cell created at(2,1000)" do
+		new_world.alive?(2,1000).should eq(true)
+	end
+
+	it "should return false for an arbitrary space at (3,2)" do
+		new_world.alive?(3,2).should eq(false)
+	end
+
+	it "should return false for an arbitrary space at (34,24)" do
+		new_world.alive?(34,24).should eq(false)
+	end
+
+end
 
 
+describe World, "#set_bounds" do
+	new_world = World.new
+	c10 =new_world.new_cell(1,0)
+	c05 = new_world.new_cell(0,5)
+
+	it "should return the proper value for cells at c10 and c05" do
+		new_world.set_bounds
+		new_world.bounds.should eq([-1,2,-1,6])
+	end
+
+	it "should return the proper value for cells at c(1,0), c(0,5), and c(43,-22)" do
+		c43_22 = new_world.new_cell(43,-22)
+		new_world.set_bounds
+		new_world.bounds.should eq([-1,44,-23,6])
+	end
+
+end
