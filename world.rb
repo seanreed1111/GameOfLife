@@ -35,7 +35,7 @@ class World
 
 	def alive?(x_coor,y_coor)
 		alive = false
-		self.world each do cell
+		self.world.each do |cell|
 			alive = true if (cell.x == x_coor and cell.y == y_coor)
 		end
 		alive
