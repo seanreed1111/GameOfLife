@@ -5,7 +5,7 @@ require './cell'
 #  Rule4   Any dead cell with exactly three live neighbours becomes a live cell
 
 class World
-	attr_reader :world, :bounds
+	attr_accessor :world, :bounds
 
 	def initialize
 		@world = []
@@ -14,7 +14,7 @@ class World
 
 	def new_cell(x,y)
 		cell = Cell.new(x,y)
-		@world << cell
+		self.world << cell
 		cell
 	end
 
@@ -65,7 +65,7 @@ class World
 			y<< cell.y
 		end
 
-		self.bounds << x.minmax << y.minmax
+		self.bounds << x.min-1<< xmax+1 << y.min-1 << ymax+1
 	end
 
 	def reincarnation_locations
@@ -73,8 +73,8 @@ class World
 		#cells that should be brought back to life
 		#Note: set_bounds should be called before this function
 		locations = []
-		for x in ((self.bounds[0][0])..(self.bounds[0][1]))
-			for y in (self.bounds[1][0]..self.bounds[1][1])
+		for x in ((self.bounds[0])..(self.bounds[1]))
+			for y in ((self.bounds[2])..(self.bounds[3]))
 				locations << [x,y] if num_of_neighbors(x,y) == 3
 			end
 		end
@@ -100,14 +100,12 @@ class World
 		#How do you know the boundaries of the world as it exists in self?
 		#need to loop out one more row and column away from the max and min x and y values
 		#insert code here
-		# Rule4   Any dead cell with exactly three live neighbours becomes a live cell
-		 = 
+		# Rule4   Any dead cell with exactly three live neighbours lives again
 		self.set_bounds
 		new_cell_locations = self.reincarnation_locations #returns array of x,y locations of cells to be reincarnated
 		
 		#now, add these new cell locations to temp_world 
 		#iff they don't already exist in temp_world
-		use the alive?(x,y) method
 
 		if new_cell_locations.length != 0
 			new_cell_locations.each do |x,y|

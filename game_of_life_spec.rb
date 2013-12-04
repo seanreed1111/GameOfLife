@@ -19,18 +19,25 @@
 require './cell'
 require './world'
 
-#  Rule2   Any live cell with two or three live neighbours lives
-describe "testing rule number 2" do
-		new_world = World.new
-		c00 = new_world.new_cell(0,0)
-		c10 = new_world.new_cell(1,0)
-	it 'should be able to count its neighbors'do
-		c00.neighbors.should eq(1)
+describe "testing world#new_cell" do
+	it "should create a new cell" do
 	end
 
-	it 'should satisfy Any live cell with two or three live neighbours lives on'  do
-		true
+	it "should put the new cell in the world array variable" do
 	end
 end
+
+# describe "testing rule numbers 1-3" do
+# 		new_world = World.new
+# 		c00 = new_world.new_cell(0,0)
+# 		c10 = new_world.new_cell(1,0)
+# 	it 'should be able to count its neighbors'do
+# 		c00.neighbors.should eq(1)
+# 	end
+
+# 	it 'should satisfy Any live cell with two or three live neighbours lives on'  do
+# 		true
+# 	end
+# end
 
 
