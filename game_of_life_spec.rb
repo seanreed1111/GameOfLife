@@ -149,7 +149,7 @@ describe World, "#reincarnation_locations" do
 		new_world.reincarnation_locations.should eq([[1,2],[1,3],[2,1]])
 		
 	end
-
-
 end
+
+#still have to test reincarnate!, kill_live_cells_if_needed!, and tick!
 
