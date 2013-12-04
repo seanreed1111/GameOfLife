@@ -1,5 +1,5 @@
 require './cell'
-#  Rule1   Any live cell with fewer than two live neighbors dies
+#  R ule1   Any live cell with fewer than two live neighbors dies
 #  Rule2   Any live cell with two or three live neighbors lives on to the next generation.
 #  Rule3   Any live cell with more than three live neighbors dies
 #  Rule4   Any dead cell with exactly three live neighbors becomes a live cell
@@ -19,14 +19,14 @@ class World
 	end
 
 	def num_of_neighbors(x,y)
+		#loop runs 8 times, since each point can have a max of 8 neighbors
+		#scan each point on square -1,0, or 1 away from (x,y), on both the x and y axes.
 		neighbors =[]
 		for i in (-1..1)
 			for j in (-1..1)
-				next if (i==0 && j==0)
+				next if (i==0 && j==0) #since we are looking for neighbors around (x,y)
 				neighbors << [x+i, y+j] if self.alive?((x+i), (y+j)) 
 				#neighbors doesn't give the actual cells, only the locations of the cells
-				#but I think that is ok, because I can just look at the length of neighbors to tell if
-				#the cell should be alive or dead for the next round
 			end
 			
 		end

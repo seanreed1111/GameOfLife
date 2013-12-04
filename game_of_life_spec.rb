@@ -146,7 +146,7 @@ describe World, "#reincarnation_locations" do
 		c22 = new_world.new_cell(2,2)
 		c23 = new_world.new_cell(2,3)
 		new_world.set_bounds
-		new_world.reincarnation_locations.should eq([[1,2],[1,3],[2,1]])
+		new_world.reincarnation_locations.should eq([[1,3],[2,1]])
 		
 	end
 end
