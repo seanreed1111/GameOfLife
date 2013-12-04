@@ -36,7 +36,7 @@ class World
 	def alive?(x_coor,y_coor)
 		alive = false
 		self.world.each do |cell|
-			alive = true if (cell.x == x_coor and cell.y == y_coor)
+			alive = true if (cell.x == x_coor && cell.y == y_coor)
 		end
 		alive
 	end
@@ -64,11 +64,18 @@ class World
 	def reincarnation_locations
 		#reincarnate returns array of the x,y locations of 
 		#cells that should be brought back to life
-		#Note: set_bounds should be called before this function
+
+		#Note: set_bounds should be called before this method is run
+		# puts "self.bounds[0] = #{self.bounds[0]}"
+		# puts "self.bounds[1] = #{self.bounds[1]}"
+		# puts "self.bounds[2] = #{self.bounds[2]}"
+		# puts "self.bounds[3] = #{self.bounds[3]}"
 		locations = []
 		for x in ((self.bounds[0])..(self.bounds[1]))
 			for y in ((self.bounds[2])..(self.bounds[3]))
-				locations << [x,y] if num_of_neighbors(x,y) == 3
+				if num_of_neighbors(x,y) == 3
+					locations << [x,y] 
+				end
 			end
 		end
 		locations
@@ -85,7 +92,7 @@ class World
 	# Finally, set @world = TEMP to update the new state of the world
 
 	def tick!
-
+		#can further break tick down into kill_live_cells! and reincarnate!
 		temp_world = World.new
 		temp_world = self
 		temp_world.each do |cell|
