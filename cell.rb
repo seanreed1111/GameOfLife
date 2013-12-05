@@ -5,8 +5,4 @@ class Cell
         @x = x
         @y = y
     end
-
-
-
-    
 end

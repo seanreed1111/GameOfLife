@@ -244,9 +244,9 @@ describe Universe, "#tick!" do
 		new_universe.world.should_not include(c10)
 		new_universe.world.should_not include(c12)
 		new_universe.world.should include(c11)
-		new_universe.world[-2].x.should eq(0)
+		new_universe.world[-2].x.should eq(0) # new cell at x=0 , y=1
 		new_universe.world[-2].y.should eq(1)
-		new_universe.world[-1].x.should eq(2)
+		new_universe.world[-1].x.should eq(2) # new cell at x=2, y=1
 		new_universe.world[-1].y.should eq(1)
 	end
 

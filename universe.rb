@@ -6,10 +6,12 @@ require './cell'
 
 class Universe
 	attr_accessor :world, :bounds
+	attr_reader :cell_coordinates
 
 	def initialize
 		@world = []
 		@bounds = []
+		@cell_coordinates = []
 	end
 
 	def new_cell(x,y)
@@ -18,8 +20,39 @@ class Universe
 		cell
 	end
 
+	def populate!(number_of_cells=10, size_of_grid=10)
+		1.upto(number_of_cells) {new_cell(1+rand(size_of_grid/2.0), 1+rand(size_of_grid/2.0))}
+	end
+
+	def blinker!
+		1.upto(3) {|i| new_cell(5,i+5)}
+	end
+
+	def go!
+		1.upto(10) {|i| new_cell(10,i+5)}
+	end
 
 
+	def set_cell_coordinates! #needed for printing
+		@cell_coordinates = []
+		@world.each {|cell| @cell_coordinates << [cell.x,cell.y]}
+	end
+
+
+	def print_universe
+		puts "\e[H"
+		set_cell_coordinates!
+		for y in (1..25)        #default screen size is 5
+			print "\n"
+			for x in (1..25)
+				if @cell_coordinates.include?([x,y])
+					print "*"
+				else
+					print "."
+				end
+			end
+		end
+	end
 
 	def dead?(x_coor,y_coor)
 		!alive?(x_coor,y_coor)
