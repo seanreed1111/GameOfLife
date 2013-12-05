@@ -41,7 +41,7 @@ class Universe
 		neighbors =[]
 		for i in (-1..1)
 			for j in (-1..1)
-				next if (i==0 && j==0) #since we are looking for neighbors AROUND (x,y), not AT (x,y)
+				next if (i==0) && (j==0) #since we are looking for neighbors AROUND (x,y), not AT (x,y)
 				if alive?((x+i), (y+j))
 					neighbors << [x+i, y+j]
 				end
@@ -77,15 +77,19 @@ class Universe
 		#  Rule3   Any live cell with more than three live neighbors dies
 		puts "the world is currently #{world.inspect}"
 
+		temp_array = [] #captures the array of cells that needs to be deleted
+
 		@world.each do |cell|
-			neighbors_array = neighbors(cell.x, cell.y) #computes number of neighbors using TEMP! 
+			
+			neighbors_array = neighbors(cell.x, cell.y)
 			puts "neighbors for cell #{cell.inspect} is #{neighbors_array.inspect}"
 			if (neighbors_array.length < 2 || neighbors_array.length > 3)
 				puts "deleting cell #{cell.inspect}"
-				@world.delete(cell)
+				temp_array << cell
 				puts "the world is now #{world.inspect}"
 			end
 		end
+		@world -= temp_array #removes the live cells in temp_array marked for death from the world
 	end
 
 	def reincarnation_locations
