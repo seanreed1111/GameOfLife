@@ -20,182 +20,162 @@ require './cell'
 require './universe'
 
 describe "testing Universe#new_cell" do
-		new_world = Universe.new
-		c10 =new_world.new_cell(1,0)
-		c20 = new_world.new_cell(2,0)
+		new_universe = Universe.new
+		c10 =new_universe.new_cell(1,0)
+		c20 = new_universe.new_cell(2,0)
 
 	it "should create a new cell" do
 		c10.is_a?(Cell).should eq(true)
-		new_world.is_a?(Universe).should eq(true)
+		new_universe.is_a?(Universe).should eq(true)
 	end
 
 	it "should include c10 in the @world instance variable" do
-		new_world.world.should include(c10)
+		new_universe.world.should include(c10)
 		
 	end
 
 		it "should include c20 in the @world instance variable" do
-		new_world.world.should include(c20)
+		new_universe.world.should include(c20)
 		
 	end
 end
 
-describe Universe, "#num_of_neighbors" do
-		new_world = Universe.new
-		c10 =new_world.new_cell(1,0)
-		c20 = new_world.new_cell(2,0)
-		c11 = new_world.new_cell(1,1)
-		c12 = new_world.new_cell(1,2)
-		c22 = new_world.new_cell(2,2)
+describe Universe, "#neighbors" do
+		new_universe = Universe.new
+		c10 =new_universe.new_cell(1,0)
+		c20 = new_universe.new_cell(2,0)
+		c11 = new_universe.new_cell(1,1)
+		c12 = new_universe.new_cell(1,2)
+		c22 = new_universe.new_cell(2,2)
 
 	it "should compute the correct number of neighbours for (0,0)" do
-		new_world.num_of_neighbors(0,0).should eq(2)
+		new_universe.neighbors(0,0).length.should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (1,0)" do
-		new_world.num_of_neighbors(1,0).should eq(2)
+		new_universe.neighbors(1,0).length.should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (1,1)" do
-		puts "new_world.world is #{new_world.world}"
-		new_world.num_of_neighbors(1,1).should eq(4)
+		puts "new_universe.world is #{new_universe.world}"
+		new_universe.neighbors(1,1).length.should eq(4)
 	end
 
 	it "should compute the correct number of neighbours for (1,2)" do
-		new_world.num_of_neighbors(1,2).should eq(2)
+		new_universe.neighbors(1,2).length.should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (2,0)" do
-		new_world.num_of_neighbors(2,0).should eq(2)
+		new_universe.neighbors(2,0).length.should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (2,1)" do
-		new_world.num_of_neighbors(2,1).should eq(5)
+		new_universe.neighbors(2,1).length.should eq(5)
 	end
 
 	it "should compute the correct number of neighbours for (2,2)" do
-		new_world.num_of_neighbors(2,2).should eq(2)
+		new_universe.neighbors(2,2).length.should eq(2)
 	end
 
 	it "should compute the correct number of neighbours for (3,3)" do
-		new_world.num_of_neighbors(3,3).should eq(1)
+		new_universe.neighbors(3,3).length.should eq(1)
 	end
 
 		it "should compute the correct number of neighbours for (4,4)" do
-		new_world.num_of_neighbors(4,4).should eq(0)
+		new_universe.neighbors(4,4).length.should eq(0)
 	end
 
 end
 
 describe Universe, "#alive?" do
-	new_world = Universe.new
-	c203_2 = new_world.new_cell(-203,2)
-	c2_1000 = new_world.new_cell(2,1000)
+	new_universe = Universe.new
+	c203_2 = new_universe.new_cell(-203,2)
+	c2_1000 = new_universe.new_cell(2,1000)
 
 	it "should return true for cell created at(-203,2)" do
-		new_world.alive?(-203,2).should eq(true)
+		new_universe.alive?(-203,2).should eq(true)
 	end
 
 	it "should return true for cell created at(2,1000)" do
-		new_world.alive?(2,1000).should eq(true)
+		new_universe.alive?(2,1000).should eq(true)
 	end
 
 	it "should return false for an arbitrary space at (3,2)" do
-		new_world.alive?(3,2).should eq(false)
+		new_universe.alive?(3,2).should eq(false)
 	end
 
 	it "should return false for an arbitrary space at (34,24)" do
-		new_world.alive?(34,24).should eq(false)
+		new_universe.alive?(34,24).should eq(false)
 	end
 
 end
 
 
 describe Universe, "#set_bounds" do
-	new_world = Universe.new
-	c10 =new_world.new_cell(1,0)
-	c05 = new_world.new_cell(0,5)
+	new_universe = Universe.new
+	c10 =new_universe.new_cell(1,0)
+	c05 = new_universe.new_cell(0,5)
 
 	it "should return the proper value for cells at c10 and c05" do
-		new_world.set_bounds
-		new_world.bounds.should eq([-1,2,-1,6])
+		new_universe.set_bounds
+		new_universe.bounds.should eq([-1,2,-1,6])
 	end
 
 	it "should return the proper value for cells at c(1,0), c(0,5), and c(43,-22)" do
-		c43_22 = new_world.new_cell(43,-22)
-		new_world.set_bounds
-		new_world.bounds.should eq([-1,44,-23,6])
+		c43_22 = new_universe.new_cell(43,-22)
+		new_universe.set_bounds
+		new_universe.bounds.should eq([-1,44,-23,6])
 	end
 
 end
 
-describe Universe, "#reincarnation_locations" do
+describe Universe, "#where_to_reanimate" do
 
-	new_world = Universe.new
-	c10 =new_world.new_cell(1,0)
-	c01 = new_world.new_cell(0,1)
-	new_world.set_bounds
+	new_universe = Universe.new
+	c10 =new_universe.new_cell(1,0)
+	c01 = new_universe.new_cell(0,1)
+	new_universe.set_bounds
 
 	it "should return an empty array if there are not exactly 3 neighbours" do
-		new_world.reincarnation_locations.should eq([])
+		new_universe.where_to_reanimate.should eq([])
 	end
 
 	it "should return only one location if there is one square with exactly 3 neighbours" do
-		c12 = new_world.new_cell(1,2)
-		new_world.set_bounds
-		new_world.reincarnation_locations.should include([1,1])
+		c12 = new_universe.new_cell(1,2)
+		new_universe.set_bounds
+		new_universe.where_to_reanimate.should include([1,1])
 	end
 
-	it "should return multiple location if there is more than one square with exactly 3 neighbours" do
-		c12 = new_world.new_cell(1,2)
-		c22 = new_world.new_cell(2,2)
-		c23 = new_world.new_cell(2,3)
-		new_world.set_bounds
-		new_world.reincarnation_locations.should eq([[1,3],[2,1]])
-		
+	it "should return multiple locations if there is more than one square with exactly 3 neighbours" do
+		c12 = new_universe.new_cell(1,2)
+		c22 = new_universe.new_cell(2,2)
+		c23 = new_universe.new_cell(2,3)
+		new_universe.set_bounds
+		new_universe.where_to_reanimate.should include([1,3])
+		new_universe.where_to_reanimate.should include([2,1])		
 	end
 end
 
-#still have to test reincarnate!, kill_live_cells_if_needed!, and tick!
 
-	def kill_live_cells_if_needed!
-		#  Rule1   Any live cell with fewer than two live neighbors dies
-		#  Rule2   Any live cell with two or three live neighbors lives
-		#  Rule3   Any live cell with more than three live neighbors dies
-		self.world.each do |cell|
-			neighbors = self.num_of_neighbors(cell.x, cell.y)
-			if (neighbors < 2 || neighbors > 3)
-				self.world.delete(cell)
-			end
-		end
-	end
+describe Universe, "#what_to_kill" do
 
-describe Universe, "#kill_live_cells_if_needed" do
+	new_universe = Universe.new
+	c10 = new_universe.new_cell(1,0)
+	c11 = new_universe.new_cell(1,1)
+	c12 = new_universe.new_cell(1,2)
+	new_universe.set_bounds
 
-	new_world = Universe.new
-	c10 = new_world.new_cell(1,0)
-	c11 = new_world.new_cell(1,1)
-	c12 = new_world.new_cell(1,2)
-	new_world.set_bounds
+	c20 =new_universe.new_cell(2,0)
+	c22 = new_universe.new_cell(2,2)
+	new_universe.set_bounds
 
-	# it"should kill c10 and c12" do
-	# 	new_world.kill_live_cells_if_needed! #only c11 should be left in the world
-	# 	puts new_world.world.inspect
-	# 	new_world.world.should eq([c11])
-	# end
-
-	c20 =new_world.new_cell(2,0)
-	c22 = new_world.new_cell(2,2)
-	new_world.set_bounds
-	#the following test currently fails
  	it "should kill c11 only" do
-		new_world.kill_live_cells_if_needed!
-		puts new_world.world.inspect
-		new_world.world.should_not include(c11)
-		new_world.world.should include(c10)
-		new_world.world.should include(c20)
-		new_world.world.should include(c12)
-		new_world.world.should include(c22)
+		new_universe.world -= new_universe.what_to_kill
+		new_universe.world.should_not include(c11)
+		new_universe.world.should include(c10)
+		new_universe.world.should include(c20)
+		new_universe.world.should include(c12)
+		new_universe.world.should include(c22)
 	end
 
 end
