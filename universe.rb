@@ -98,17 +98,13 @@ class Universe
 		locations
 	end
 
-	def reanimate! ##brings new cells to life in the universe
-		new_cell_locations = where_to_reanimate 
-		if !new_cell_locations.empty?   #there is at least one new cell to create
-			new_cell_locations.each do |x,y|
-				new_cell(x,y) if !alive?(x,y)
-			end
-		end	
+	def reanimate! ##brings new cells to life in the universe if there is at least one new cell to create
+		where_to_reanimate.each {|x,y| new_cell(x,y)}	
 	end
 
 
 	def tick!
+		dead_cells = []
 		dead_cells = what_to_kill
 		reanimate!  
 		@world -= dead_cells #gets rid of the dead cells in the universe

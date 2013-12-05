@@ -163,8 +163,6 @@ describe Universe, "#what_to_kill" do
 	c10 = new_universe.new_cell(1,0)
 	c11 = new_universe.new_cell(1,1)
 	c12 = new_universe.new_cell(1,2)
-	new_universe.set_bounds
-
 	c20 =new_universe.new_cell(2,0)
 	c22 = new_universe.new_cell(2,2)
 	new_universe.set_bounds
@@ -176,6 +174,80 @@ describe Universe, "#what_to_kill" do
 		new_universe.world.should include(c20)
 		new_universe.world.should include(c12)
 		new_universe.world.should include(c22)
+	end
+
+end
+
+describe Universe, "#reanimate!" do
+
+	it "should reanimate c(0,1) leaving all other cells the same" do
+		new_universe = Universe.new
+		c10 = new_universe.new_cell(1,0)
+		c11 = new_universe.new_cell(1,1)
+		c12 = new_universe.new_cell(1,2)
+		c20 =new_universe.new_cell(2,0)
+		c22 = new_universe.new_cell(2,2)
+		new_universe.set_bounds
+		new_universe.reanimate!
+
+	 	
+		new_universe.world.should include(c10)
+		new_universe.world.should include(c11)
+		new_universe.world.should include(c12)
+		new_universe.world.should include(c20)
+		new_universe.world.should include(c22)
+		#it should also have an additional Cell object  at x,y = (0,1) at the end
+		new_universe.world[-1].x.should eq(0)
+		new_universe.world[-1].y.should eq(1)
+	end
+
+	it "should reanimate cells at (0,1) (0,2) (0,3) (2,1) (2,2) and (2,3)" do
+		new_universe = Universe.new
+		c10 = new_universe.new_cell(1,0)
+		c11 = new_universe.new_cell(1,1)
+		c12 = new_universe.new_cell(1,2)
+		c13 =new_universe.new_cell(1,3)
+		c14 = new_universe.new_cell(1,4)
+		new_universe.set_bounds
+		new_universe.reanimate!
+
+		new_cells = []
+		new_cells = new_universe.world[-6,6]
+
+		new_universe.world[-6].x.should eq(0)
+		new_universe.world[-6].y.should eq(1)
+		new_universe.world[-5].x.should eq(0)
+		new_universe.world[-5].y.should eq(2)
+		new_universe.world[-4].x.should eq(0)
+		new_universe.world[-4].y.should eq(3)
+		new_universe.world[-3].x.should eq(2)
+		new_universe.world[-3].y.should eq(1)
+		new_universe.world[-2].x.should eq(2)
+		new_universe.world[-2].y.should eq(2)
+		new_universe.world[-1].x.should eq(2)
+		new_universe.world[-1].y.should eq(3)
+	end
+
+end
+
+describe Universe, "#tick!" do
+
+	new_universe = Universe.new
+	c10 = new_universe.new_cell(1,0)
+	c11 = new_universe.new_cell(1,1)
+	c12 = new_universe.new_cell(1,2)
+	
+	new_universe.set_bounds
+
+ 	it "should accurately kill c10 and c12, leave c11 alive, and reanimate (0,1) and (2,1)" do
+		new_universe.tick!
+		new_universe.world.should_not include(c10)
+		new_universe.world.should_not include(c12)
+		new_universe.world.should include(c11)
+		new_universe.world[-2].x.should eq(0)
+		new_universe.world[-2].y.should eq(1)
+		new_universe.world[-1].x.should eq(2)
+		new_universe.world[-1].y.should eq(1)
 	end
 
 end
