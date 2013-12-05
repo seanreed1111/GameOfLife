@@ -158,45 +158,44 @@ end
 
 #still have to test reincarnate!, kill_live_cells_if_needed!, and tick!
 
-	#test of kill_live_cells_if_needed
-	# def kill_live_cells_if_needed!
-	# 	#  Rule1   Any live cell with fewer than two live neighbors dies
-	# 	#  Rule2   Any live cell with two or three live neighbors lives
-	# 	#  Rule3   Any live cell with more than three live neighbors dies
-	# 	self.world.each do |cell|
-	# 		neighbors = self.num_of_neighbors(cell.x, cell.y)
-	# 		if (neighbors < 2 || neighbors > 3)
-	# 			self.world.delete(cell)
-	# 		end
-	# 	end
+	def kill_live_cells_if_needed!
+		#  Rule1   Any live cell with fewer than two live neighbors dies
+		#  Rule2   Any live cell with two or three live neighbors lives
+		#  Rule3   Any live cell with more than three live neighbors dies
+		self.world.each do |cell|
+			neighbors = self.num_of_neighbors(cell.x, cell.y)
+			if (neighbors < 2 || neighbors > 3)
+				self.world.delete(cell)
+			end
+		end
+	end
+
+describe Universe, "#kill_live_cells_if_needed" do
+
+	new_world = Universe.new
+	c10 = new_world.new_cell(1,0)
+	c11 = new_world.new_cell(1,1)
+	c12 = new_world.new_cell(1,2)
+	new_world.set_bounds
+
+	# it"should kill c10 and c12" do
+	# 	new_world.kill_live_cells_if_needed! #only c11 should be left in the world
+	# 	puts new_world.world.inspect
+	# 	new_world.world.should eq([c11])
 	# end
 
-# describe Universe, "#kill_live_cells_if_needed" do
+	c20 =new_world.new_cell(2,0)
+	c22 = new_world.new_cell(2,2)
+	new_world.set_bounds
+	#the following test currently fails
+ 	it "should kill c11 only" do
+		new_world.kill_live_cells_if_needed!
+		puts new_world.world.inspect
+		new_world.world.should_not include(c11)
+		new_world.world.should include(c10)
+		new_world.world.should include(c20)
+		new_world.world.should include(c12)
+		new_world.world.should include(c22)
+	end
 
-# 	new_world = Universe.new
-# 	c10 = new_world.new_cell(1,0)
-# 	c11 = new_world.new_cell(1,1)
-# 	c12 = new_world.new_cell(1,2)
-# 	new_world.set_bounds
-
-# 	# it"should kill c10 and c12" do
-# 	# 	new_world.kill_live_cells_if_needed! #only c11 should be left in the world
-# 	# 	puts new_world.world.inspect
-# 	# 	new_world.world.should eq([c11])
-# 	# end
-
-# 	c20 =new_world.new_cell(2,0)
-# 	c22 = new_world.new_cell(2,2)
-# 	new_world.set_bounds
-# 	#the following test currently fails
-#  	it "should kill c11 only" do
-# 		new_world.kill_live_cells_if_needed!
-# 		puts new_world.world.inspect
-# 		new_world.world.should_not include(c11)
-# 		new_world.world.should include(c10)
-# 		new_world.world.should include(c20)
-# 		new_world.world.should include(c12)
-# 		new_world.world.should include(c22)
-# 	end
-
-# end
+end
