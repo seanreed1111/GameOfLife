@@ -55,7 +55,11 @@ class Universe
 	end
 
 	def dead?(x_coor,y_coor)
-		!alive?(x_coor,y_coor)
+		alive = false
+		@world.each do |cell|
+			alive = true if (cell.x == x_coor && cell.y == y_coor)
+		end
+		!alive
 	end
 
 	def alive?(x_coor,y_coor)
@@ -119,10 +123,10 @@ class Universe
 		#cells that should be brought back to life
 		#!!!!BUT SHOULD NOT BE AT LOCATION OF CELL ALIVE AT t=T!!!!!
 
-		set_bounds
+		xmin, xmax, ymin,ymax = set_bounds
 		locations = []
-		for x in ((@bounds[0])..(@bounds[1]))
-			for y in ((@bounds[2])..(@bounds[3]))
+		for x in (xmin..xmax)
+			for y in (ymin..ymax)
 				if neighbors(x,y).length == 3 && dead?(x,y)  #three neighbors && cell is dead
 					locations << [x,y] 
 				end

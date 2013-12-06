@@ -10,7 +10,7 @@ puts "\e[H"
 new_universe = Universe.new
 new_universe.go!
 
-1.upto(100) {
+1.upto(60) {
 	new_universe.print_universe	
 	sleep(0.15)
 	new_universe.tick!
